@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:47:49 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/05/24 11:22:16 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:50:52 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@ int main(int argc, char **argv)
         ft_error(ERROR_MALLOC);
     
     ft_init_args(argv, philo_args);
+
     
-    /*
-    printf("Number philosophers:%ld\n", philo_args->num_philo);
-    printf("To die:%ld\n", philo_args->time_to_die);
-    printf("To eat:%ld\n", philo_args->time_to_eat);
-    printf("To sleep:%ld\n", philo_args->time_to_sleep);
-    printf("Number to eat%ld\n", philo_args->num_times_to_eat);
-    */
+
+    return (0);
+
 }
