@@ -6,12 +6,11 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:23:06 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/05/24 10:53:46 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:46:25 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
 
 size_t ft_strlen(char *str)
 {
