@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: aumoreno <aumoreno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:47:49 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/06/12 16:13:29 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:46:18 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,31 +31,34 @@ int main(int argc, char **argv)
     // si es 3 o 6, error
 
     t_args *philo_args;
-    pthread_mutex_t mutex;
+    
     
     if(argc < 5 || argc > 6)
         ft_error(ERROR_ARGS);
     
     
-    philo_args = (t_args *)malloc(sizeof(t_args));
+    philo_args = (t_args *)malloc(sizeof(t_args)); // To-Do: modificar aqui la comprobacion de args
     if(!philo_args)
         ft_error(ERROR_MALLOC);
     
+    ft_init_args(argv, philo_args); // add check 
     
-    ft_init_args(argv, philo_args);
+    //checking if there is enough time to avoid dying 
+    ft_check_avoid_dying(philo_args);
     
+
     // try print here a philo args
    // printf("Number philo: %ld \n", philo_args->num_philo);
     // vamos a crear una structura philo con pthread y con el id_philosopher (que sea based on number que sea, ver subject X )
     // vamos a hacer una lista de philos y ahi vamos a ir guardando los threads 
-    pthread_mutex_init(&mutex, NULL); //UN MUTEX POR CADA PHILO
-    ft_init_threads(philo_args, mutext);
+
+    ft_init_data(philo_args);
     //hacer método init threads
     //probar una simple rutina
     
     // DELETE THE FOLLOWING WHEN NO LONGER NEEDED 
 
-    pthread_mutex_destroy(&mutex);
+    
     return (0);
 
 }

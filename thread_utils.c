@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: aumoreno <aumoreno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 11:44:27 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/06/12 16:13:43 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:24:49 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,46 @@
 
 void *ft_test_routine(void *args) // add el mutex
 {
-    (void)args;
-    //t_args *philo_args = (t_args *)args;
-    pthread_mutex_lock(philo->mutex);
+    int i = 0;
+    t_args *philo_args = (t_args *)args;
+    
+    //si num of philo es odd they sleep at the begining  
+    if(philo_args->num_philo % 2 != 0)
+    {
+        while(i < philo_args->num_philo)
+        {   
+            printf("%ld\n", philo_args->philos[i].philo_id);
+            ft_sleep(philo_args->time_to_eat / 2);
+            ft_print_msg(IS_SLEEPING, philo_args->philos[i].philo_id);
+            i++;
+        }
+    }
+
+    //hacer funcion ft_take_fork()
     printf("testing\n");
-    pthread_mutex_unlock(philo->mutex);
     return (0);
 }
 
 void ft_create_threads(t_args *args)
 {
-    args->philo_ths = malloc(sizeof(pthread_t) * args->num_philo);
+    args->philos = malloc(sizeof(t_philo) * args->num_philo);
     long i = 0;
     while(i < args->num_philo)
     {
-        if(pthread_create(&args->philo_ths[i], NULL, &ft_test_routine, args) != 0)
+        //printf("%ld\n", args->philos[i].philo_id);
+        if(pthread_create(&args->philos[i].th_philo, NULL, &ft_test_routine, args) != 0)
         {
             perror(ERROR_CREATE_TH);
-            exit(EXIT_FAILURE); 
+            exit(EXIT_FAILURE);
         }
         
-        // TO-DO: considerar poner pthread join en un bucle a parte 
-        if(pthread_join(args->philo_ths[i], NULL) != 0)
-        {
+        // // TO-DO: considerar poner pthread join en un bucle a parte 
+        if(pthread_join(args->philos[i].th_philo, NULL) != 0)
             perror(ERROR_JOIN_TH);
-        }
-        
-        args->philos[i].mutex = mutex;
-        
+    
         i++;
     }
     
-    
-  
 }
 
 void ft_init_philosophers(t_args *args)
@@ -54,7 +61,7 @@ void ft_init_philosophers(t_args *args)
     t_philo *philo;
    
     long i = 0;
-    philo = malloc(sizeof(t_philo) * args->num_philo);
+    philo = malloc(sizeof(t_philo) * args->num_philo); 
 
     if(!philo)
     {
@@ -62,15 +69,18 @@ void ft_init_philosophers(t_args *args)
         exit(EXIT_FAILURE);
     }
     
-    while(i < args->num_philo)
+    while(i < args->num_philo) 
     {
-        philo->philo_id = i + 1; 
+        philo[i].philo_id = i + 1; 
+
+        philo[i].last_meal_time = 0; 
         i++;
     }
-    
+
+    args->philos = philo;    
 }
 
-void ft_init_threads(t_args *args, pthread_mutex_t mutex)
+void ft_init_data(t_args *args)
 {
     printf("creating threads\n");
     ft_init_philosophers(args);

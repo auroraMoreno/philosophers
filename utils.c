@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
+/*   By: aumoreno <aumoreno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:23:06 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/06/12 15:46:25 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:29:13 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void ft_check_avoid_dying(t_args *args)
+{
+    // si son impares
+    if(args->num_philo % 2 != 0)
+    {
+        if(args->time_to_die < (args->time_to_eat + args->time_to_sleep + 10))
+            ft_error("Not enough time to eat, philo will die.");  //de momento error pero preguntar jeje  
+    }
+    else if(args->num_philo % 2 == 0)  //si son pares 
+    {
+        if(args->time_to_die < (args->time_to_eat * 2 + args->time_to_sleep + 10))
+            ft_error("Not enough time to eat, philo will die."); 
+    }
+    
+}
+
+
+/*ejemplo:
+timestamp_in_ms X has taken a fork
+*/
+void ft_print_msg(char *msg, int philo_id)
+{
+    long ts; 
+    ts = ft_get_time_ms();
+    printf("%ld %d %s \n", ts, philo_id, msg);
+}
 
 size_t ft_strlen(char *str)
 {
