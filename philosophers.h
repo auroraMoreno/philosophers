@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aumoreno <aumoreno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:50:28 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/06/23 11:56:02 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:48:08 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,17 @@
 #define ERROR_NOT_NUMBER "Argument(s) not a valid number.\n"
 #endif
 
+#ifndef ERROR_NUM_PHILO
+#define ERROR_NUM_PHILO "Wrong number of philosophers given.\n"
+#endif
+
 #ifndef ERROR_CREATE_TH
 #define ERROR_CREATE_TH "Error creating thread.\n"
 #endif
 
+#ifndef ERROR_MUTEX_INIT
+#define ERROR_MUTEX_INIT "Error initialising mutex.\n"
+#endif
 
 #ifndef ERROR_JOIN_TH
 #define ERROR_JOIN_TH "Error joining thread.\n"
@@ -43,9 +50,9 @@
 
 
 /*philo states*/
-#define SLEEP 0
-#define EAT 1 
-#define THINK 2 
+#define SLEEPING 0
+#define EATING 1 
+#define THINKING 2 
 
 /*philo messages*/
 #define TAKEN_FORK "has taken a fork"
@@ -58,33 +65,51 @@
 
 typedef struct s_philosopher
 {
-    pthread_t th_philo;
-    pthread_mutex_t left_fork;
-    pthread_mutex_t right_fork;
     long philo_id;
+    pthread_t th_philo;
+    /*fork pointers to the fork mutex array in args, 
+        have to be pointer so that we access that array directly
+        if they were just values we would be creating a copy of the fork all the time, defeating the purpose of shared forks
+    */
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
     long last_meal_time; 
+    int meals_eaten; 
     int has_to_eat;
+    int state; //0, 1, 2
+    t_args *args; 
     
 }t_philo;
 
 typedef struct s_args // cambiar nombre a data 
 {
     /*arguments*/
-    long num_philo; //numero de filosofos 
-    long time_to_die;
-    long time_to_eat;
-    long time_to_sleep;
-    long num_times_to_eat;
+    int num_philo; 
+    int time_to_die;
+    int time_to_eat;
+    int time_to_sleep;
+    int num_times_to_eat;
+    long long sim_start_time;
+    int sim_should_end; //0 o 1
+    pthread_mutex_t *forks; // todos los tenedores que hay 
+    pthread_mutex_t meal_time_mtx; // to protect last meal time as it will be accesed by multiple threads: monitor and philospher 
+    pthread_mutex_t sim_end_mtx; //to protect the sim should end flag
+    pthread_mutex_t print_mtx; 
     t_philo     *philos; 
     
 }t_args;
 
-
+/*init methods*/
 void ft_init_args(char **argv, t_args *philo_args);
+void ft_init_mtxs(t_args *philo_args);
+void ft_init_philos(t_args *philo_args);
+void ft_init_threads(pthread_t *monitor, t_args *philo_args);
+
+
 void ft_check_avoid_dying(t_args *args);
 
 /*philo actions*/
-void ft_sleep(t_args *data);
+void ft_sleep(int time_to_sleep);
 
 
 /*thread utils*/
@@ -93,8 +118,12 @@ void ft_init_philosophers(t_args *args);
 void ft_create_threads(t_args *args);
 void *ft_test_routine(void *args);
 
+/*free methods*/
+void ft_destroy_mtxs(t_args *philo_args, int forks_created);
+void ft_free_philos(t_args *philo_args);
+
 /*time utils*/
-long ft_get_time_ms();
+long long ft_get_time_ms(void);
 
 /*utils*/
 int ft_atoi(char *nbr);
