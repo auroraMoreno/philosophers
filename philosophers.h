@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:50:28 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/17 09:48:08 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:57:51 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_philosopher
     */
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
-    long last_meal_time; 
+    long long last_meal_time; 
     int meals_eaten; 
     int has_to_eat;
     int state; //0, 1, 2
@@ -108,9 +108,19 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args);
 
 void ft_check_avoid_dying(t_args *args);
 
-/*philo actions*/
-void ft_sleep(int time_to_sleep);
+/*rotuine methods*/
+void ft_philo_routine(t_philo *philo);
+int ft_check_simulation(t_args *args);
+int ft_run_simulation(t_args *args);
+void ft_only_one_philo(t_philo *philo);
 
+
+/*philosopher methods*/
+void ft_eat(t_philo *philo);
+void ft_sleep(t_philo *philo);
+void ft_think(t_philo *philo);
+void ft_take_forks(t_philo *philo);
+void ft_drop_forks(t_philo *philo);
 
 /*thread utils*/
 void ft_init_data(t_args *args);
@@ -118,12 +128,14 @@ void ft_init_philosophers(t_args *args);
 void ft_create_threads(t_args *args);
 void *ft_test_routine(void *args);
 
+/*time utils*/
+long long ft_get_time_ms(void);
+void ft_my_usleep(long long time_sleep, t_args *args);
+
 /*free methods*/
 void ft_destroy_mtxs(t_args *philo_args, int forks_created);
 void ft_free_philos(t_args *philo_args);
 
-/*time utils*/
-long long ft_get_time_ms(void);
 
 /*utils*/
 int ft_atoi(char *nbr);

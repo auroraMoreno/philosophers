@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aumoreno <aumoreno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:23:06 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/06/23 10:29:13 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/17 09:59:10 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void ft_check_avoid_dying(t_args *args)
     }
     
 }
-
 
 /*ejemplo:
 timestamp_in_ms X has taken a fork

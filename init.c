@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 09:37:02 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/17 09:49:35 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:58:30 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args)
     i = 0;
     while(i < philo_args->num_philo)
     {
-        if(pthread_create(&philo_args->philos[i].th_philo, NULL, philo_routine, &philo_args->philos[i]) != 0)
+        if(pthread_create(&philo_args->philos[i].th_philo, NULL, ft_philo_routine, &philo_args->philos[i]) != 0)
         {
             // put this in a single functions ? 
             ft_free_philos(philo_args);
@@ -71,7 +71,7 @@ void ft_init_philos(t_args *philo_args)
             philo_args->philos[i].right_fork = NULL;
         else
             philo_args->philos[i].right_fork = &philo_args->forks[(i + 1) % philo_args->num_philo];
-        // init args as well?
+        philo_args->philos[i].args = philo_args;
         i++;   
     }
 }

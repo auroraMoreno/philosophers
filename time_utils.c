@@ -6,11 +6,32 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 11:05:45 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/17 09:48:01 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/18 13:49:45 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void ft_my_usleep(long long time_sleep, t_args *args)
+{
+    long long start_time;
+    long long time_left;
+    long long time_passed;
+    long long time_sleep_micro; //for more precission
+
+    start_time = ft_get_time_ms();
+    time_sleep_micro = time_sleep * 1000;  
+    while(time_left > 0 && ft_check_simulation(args))
+    {
+        time_passed = (ft_get_time_ms() - start_time) * 1000;
+        time_left = time_sleep - time_passed;
+        if(time_left > 100000)
+            usleep(time_left / 2);
+        else if(time_left > 0)
+            usleep(time_left);
+    }
+    
+}
 
 long long ft_get_time_ms(void)
 {
