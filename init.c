@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 09:37:02 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/18 12:58:30 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/25 09:57:17 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args)
         i++;
     }
     //init monitor;
-    if(pthread_create(monitor, NULL, monitor_routine, philo_args) != 0)
+    if(pthread_create(monitor, NULL, ft_monitor_routine, philo_args) != 0)
     {
         pthread_mutex_lock(&philo_args->sim_end_mtx);
         philo_args->sim_should_end = 1;

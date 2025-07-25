@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:50:28 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/21 13:57:51 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:45:16 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@
 #define SLEEPING 0
 #define EATING 1 
 #define THINKING 2 
+#define DEAD 3
+#define FULL 4
 
 /*philo messages*/
 #define TAKEN_FORK "has taken a fork"
@@ -108,12 +110,17 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args);
 
 void ft_check_avoid_dying(t_args *args);
 
-/*rotuine methods*/
+/*monitoring methods*/
+void ft_monitor_routine(t_args *args);
+int ft_check_philo_death(t_philo *philo);
+int ft_check_philos_full(t_args *args);
+int ft_single_philo_full(t_philo *philo);
+
+/*routine methods*/
 void ft_philo_routine(t_philo *philo);
 int ft_check_simulation(t_args *args);
-int ft_run_simulation(t_args *args);
+void ft_run_simulation(t_philo *philo);
 void ft_only_one_philo(t_philo *philo);
-
 
 /*philosopher methods*/
 void ft_eat(t_philo *philo);
