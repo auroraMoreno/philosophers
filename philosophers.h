@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:50:28 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/25 11:45:16 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:45:50 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@
 #define PHILO_DIED "died"
 #define SIM_ENDED "Ending simulation..."
 
-
 typedef struct s_philosopher
 {
     long philo_id;
@@ -79,7 +78,7 @@ typedef struct s_philosopher
     int meals_eaten; 
     int has_to_eat;
     int state; //0, 1, 2
-    t_args *args; 
+    struct s_args *args; 
     
 }t_philo;
 
@@ -101,25 +100,26 @@ typedef struct s_args // cambiar nombre a data
     
 }t_args;
 
+
+
+
+
 /*init methods*/
 void ft_init_args(char **argv, t_args *philo_args);
 void ft_init_mtxs(t_args *philo_args);
 void ft_init_philos(t_args *philo_args);
 void ft_init_threads(pthread_t *monitor, t_args *philo_args);
 
-
-void ft_check_avoid_dying(t_args *args);
-
 /*monitoring methods*/
-void ft_monitor_routine(t_args *args);
+void *ft_monitor_routine(void *philo_args);
 int ft_check_philo_death(t_philo *philo);
 int ft_check_philos_full(t_args *args);
 int ft_single_philo_full(t_philo *philo);
 
 /*routine methods*/
-void ft_philo_routine(t_philo *philo);
+void *ft_philo_routine(void *args);
 int ft_check_simulation(t_args *args);
-void ft_run_simulation(t_philo *philo);
+int ft_run_simulation(t_philo *philo);
 void ft_only_one_philo(t_philo *philo);
 
 /*philosopher methods*/
@@ -129,20 +129,15 @@ void ft_think(t_philo *philo);
 void ft_take_forks(t_philo *philo);
 void ft_drop_forks(t_philo *philo);
 
-/*thread utils*/
-void ft_init_data(t_args *args);
-void ft_init_philosophers(t_args *args);
-void ft_create_threads(t_args *args);
-void *ft_test_routine(void *args);
 
 /*time utils*/
 long long ft_get_time_ms(void);
 void ft_my_usleep(long long time_sleep, t_args *args);
 
 /*free methods*/
+void ft_join_philos(t_args *args, int threads_created);
 void ft_destroy_mtxs(t_args *philo_args, int forks_created);
 void ft_free_philos(t_args *philo_args);
-
 
 /*utils*/
 int ft_atoi(char *nbr);

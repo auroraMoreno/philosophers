@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 09:47:49 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/17 09:53:05 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:37:21 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int main(int argc, char **argv)
     pthread_join(monitor, NULL);
 
     // free memory 
+    ft_join_philos(&philo_args, philo_args.num_philo);
     ft_destroy_mtxs(&philo_args, philo_args.num_philo);
     ft_free_philos(&philo_args);
 

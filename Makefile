@@ -6,13 +6,13 @@
 #    By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/22 15:50:10 by aumoreno          #+#    #+#              #
-#    Updated: 2025/07/18 13:15:43 by aumoreno         ###   ########.fr        #
+#    Updated: 2025/07/25 12:57:50 by aumoreno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 EXEC = philo
 
-SRCS = main.c init.c thread_utils.c routine.c philo_actions.c utils.c time_utils.c free.c error.c
+SRCS = main.c init.c monitor.c routine.c philo_actions.c time_utils.c utils.c free.c error.c
 
 CC = gcc 
 CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=thread  -fno-sanitize=thread 

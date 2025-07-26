@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 09:56:07 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/25 11:44:51 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:42:44 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int ft_check_philos_full(t_args *args)
     int all_full;
     int i;
     if(args->num_times_to_eat == 0)
-        return;
+        return (0);
     
     i = 0;
     all_full = 1;
@@ -75,15 +75,18 @@ int ft_check_philo_death(t_philo *philo)
             pthread_mutex_unlock(&philo->args->sim_end_mtx);
             ft_print_msg(PHILO_DIED, philo->philo_id);
             philo->state = DEAD;
+            return (1);
         }
         pthread_mutex_unlock(&philo->args->sim_end_mtx);
+        return (1);
     }
+    return (0);
 }
 
-void ft_monitor_routine(t_args *args)
+void *ft_monitor_routine(void *philo_args)
 {
     int i;
-
+    t_args *args = (t_args *)philo_args;
     // ejecutar constantemente bucle monitor
     while(1)
     {
@@ -93,7 +96,7 @@ void ft_monitor_routine(t_args *args)
         while(i < args->num_philo)
         {
             if(ft_check_philo_death(&args->philos[i]) || ft_check_philos_full(args))
-                return;
+                return (NULL);
             i++;
         }    
         // hacer un sleep

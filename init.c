@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 09:37:02 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/25 09:57:17 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:39:27 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args)
         if(pthread_create(&philo_args->philos[i].th_philo, NULL, ft_philo_routine, &philo_args->philos[i]) != 0)
         {
             // put this in a single functions ? 
+            //llamar a ft_join_philo
+            ft_join_philos(philo_args, i);
             ft_free_philos(philo_args);
-            ft_destroy_mtxs(&philo_args, philo_args->num_philo);
+            ft_destroy_mtxs(philo_args, philo_args->num_philo);
             ft_error(ERROR_CREATE_TH);
         }
         i++;
@@ -36,8 +38,10 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args)
         pthread_mutex_lock(&philo_args->sim_end_mtx);
         philo_args->sim_should_end = 1;
         pthread_mutex_unlock(&philo_args->meal_time_mtx);
+            //llamar a ft_join_philo
+        ft_join_philos(philo_args, i);
         ft_free_philos(philo_args);
-        ft_destroy_mtxs(&philo_args, philo_args->num_philo);
+        ft_destroy_mtxs(philo_args, philo_args->num_philo);
         ft_error(ERROR_CREATE_TH);
     }
 }
@@ -50,7 +54,7 @@ void ft_init_philos(t_args *philo_args)
     philo_args->philos = malloc(sizeof(t_philo) * philo_args->num_philo);
     if(!philo_args->philos)
     {
-        ft_destroy_mtxs(&philo_args, philo_args->num_philo);
+        ft_destroy_mtxs(philo_args, philo_args->num_philo);
         ft_error(ERROR_MALLOC);
     }
 
@@ -63,7 +67,7 @@ void ft_init_philos(t_args *philo_args)
         philo_args->philos[i].meals_eaten = 0;
         philo_args->philos[i].has_to_eat = 0;
         philo_args->philos[i].state = THINKING;
-        philo_args->philos[i].th_philo = NULL;
+        //philo_args->philos[i].th_philo = NULL;
         // tenedor derecho e izquierdo en terminos de indice de array
         philo_args->philos[i].left_fork = &philo_args->forks[i];
         //if only 1 philo:
@@ -89,7 +93,7 @@ void ft_init_mtxs(t_args *philo_args)
     {
         if(pthread_mutex_init(&philo_args->forks[i], NULL) != 0)
         {
-            ft_destroy_mtxs(&philo_args, i);
+            ft_destroy_mtxs(philo_args, i);
             ft_error(ERROR_MUTEX_INIT);
         } // Null ?? 
             //check if unlocked ?? 
@@ -99,19 +103,19 @@ void ft_init_mtxs(t_args *philo_args)
         // init print mutex
     if(pthread_mutex_init(&philo_args->print_mtx, NULL) != 0)
     {
-        ft_destroy_mtxs(&philo_args, philo_args->num_philo); 
+        ft_destroy_mtxs(philo_args, philo_args->num_philo); 
         ft_error(ERROR_MUTEX_INIT);
     }  
         // init meal time mutex
     if(pthread_mutex_init(&philo_args->meal_time_mtx, NULL) != 0)
     {
-        ft_destroy_mtxs(&philo_args, philo_args->num_philo); 
+        ft_destroy_mtxs(philo_args, philo_args->num_philo); 
         ft_error(ERROR_MUTEX_INIT);
     }
         // init end sim mutex
     if(pthread_mutex_init(&philo_args->sim_end_mtx, NULL) != 0)
     {
-        ft_destroy_mtxs(&philo_args, philo_args->num_philo); 
+        ft_destroy_mtxs(philo_args, philo_args->num_philo); 
         ft_error(ERROR_MUTEX_INIT);
     }
 }
@@ -136,10 +140,8 @@ void ft_init_args(char **argv, t_args *philo_args)
         philo_args->time_to_die <= 0 
         || philo_args->time_to_eat <= 0
         || philo_args->time_to_sleep <= 0 ||
-    argv[5] && philo_args->num_times_to_eat <= 0) //review esto considerar usar argc
-        ft_error(ERROR_NUM_PHILO);
-
-    //init mutex to null? 
+    (argv[5] && philo_args->num_times_to_eat <= 0)) //review esto considerar usar argc
+        ft_error(ERROR_ARGS);
 }
 
 

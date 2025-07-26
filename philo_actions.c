@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:33 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/21 13:50:52 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:47:38 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void ft_think(t_philo *philo)
         if(thinking_time <= 0)
             thinking_time = 1;
         //mutex y last meal time
-        pthread_mutex_lock(philo->last_meal_time);
+        pthread_mutex_lock(&philo->args->meal_time_mtx);
         meal_time_passed = ft_get_time_ms() - philo->last_meal_time;
-        pthread_mutex_unlock(philo->last_meal_time);
+        pthread_mutex_unlock(&philo->args->meal_time_mtx);
         // SOLO PIENSA SI NO SE MUERE POR "ESPERA PAR COMER"
         //sleep => think time
         if(meal_time_passed + thinking_time < philo->args->time_to_die)

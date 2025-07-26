@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 09:59:45 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/21 14:02:09 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/26 23:46:24 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,28 @@ void ft_only_one_philo(t_philo *philo)
 }
 
 //STATIC ????
-void ft_run_simulation(t_philo *philo)
+int ft_run_simulation(t_philo *philo)
 {
     ft_take_forks(philo);
     if(ft_check_simulation(philo->args))
     {
         ft_drop_forks(philo);
-        return; //REVIEW    
+        return (1); //REVIEW    
     } 
     ft_eat(philo);
     if(ft_check_simulation(philo->args))
-        return; //REVIEW    
+        return (1); //REVIEW    
     ft_sleep(philo);
     if(ft_check_simulation(philo->args))
-        return; //REVIEW    
+        return(1); //REVIEW    
     ft_think(philo);
+    return(0);
 }
 
 // return value ?
-void ft_philo_routine(t_philo *philo)
+void *ft_philo_routine(void *args)
 {
+    t_philo *philo = (t_philo *)args;
     // check if philo odd 
     if(philo->philo_id % 2 == 0)
          //set sleep & desynchronize actions to prevent deadlocks & data races
@@ -58,12 +60,16 @@ void ft_philo_routine(t_philo *philo)
    
     // handle single philosopher case
     if(philo->args->num_philo == 1)
+    {
         ft_only_one_philo(philo);
+        return (NULL);
+    }
     //run simulation
     while(!ft_check_simulation(philo->args))
     {
-        // checks ???
-        ft_run_simulation(philo);
+        if(ft_run_simulation(philo))
+            break;
     }
+    return (NULL);
         //while running => perform actions
 }
