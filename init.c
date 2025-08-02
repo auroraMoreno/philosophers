@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 09:37:02 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/26 23:39:27 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:42:03 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void ft_init_threads(pthread_t *monitor, t_args *philo_args)
 {
     int i;
     //init philo threads;
-    philo_args->sim_start_time = ft_get_time_ms();
+    long long sim_time = ft_get_time_ms();
+    philo_args->sim_start_time = sim_time;
     i = 0;
     while(i < philo_args->num_philo)
     {
+        philo_args->philos[i].last_meal_time = sim_time;
         if(pthread_create(&philo_args->philos[i].th_philo, NULL, ft_philo_routine, &philo_args->philos[i]) != 0)
         {
             // put this in a single functions ? 

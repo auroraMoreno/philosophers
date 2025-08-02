@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 09:59:45 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/26 23:46:24 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/08/02 12:10:27 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ int ft_check_simulation(t_args *args)
 // CHECK THIS 
 void ft_only_one_philo(t_philo *philo)
 {
-    ft_print_msg(TAKEN_FORK, philo->philo_id);
+    ft_print_msg(TAKEN_FORK, philo, 0);
     ft_my_usleep(philo->args->time_to_die * 2, philo->args);
 }
 
 //STATIC ????
 int ft_run_simulation(t_philo *philo)
 {
+
     ft_take_forks(philo);
     if(ft_check_simulation(philo->args))
     {

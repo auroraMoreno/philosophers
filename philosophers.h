@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:50:28 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/26 23:45:50 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:28:20 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 
 typedef struct s_philosopher
 {
-    long philo_id;
+    int philo_id;
     pthread_t th_philo;
     /*fork pointers to the fork mutex array in args, 
         have to be pointer so that we access that array directly
@@ -143,7 +143,8 @@ void ft_free_philos(t_args *philo_args);
 int ft_atoi(char *nbr);
 int ft_isdigit(char c);
 size_t ft_strlen(char *str);
-void ft_print_msg(char *msg, int philo_id);
+void ft_print_msg(char *msg, t_philo *philo, int should_print);
+
 
 /*errors*/
 void ft_error(char *str);

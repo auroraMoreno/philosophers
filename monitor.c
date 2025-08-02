@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 09:56:07 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/26 23:42:44 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:23:54 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int ft_check_philo_death(t_philo *philo)
         {
             philo->args->sim_should_end = 1;
             pthread_mutex_unlock(&philo->args->sim_end_mtx);
-            ft_print_msg(PHILO_DIED, philo->philo_id);
+            ft_print_msg(PHILO_DIED, philo, 1);
             philo->state = DEAD;
             return (1);
         }

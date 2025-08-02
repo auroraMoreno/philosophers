@@ -6,7 +6,7 @@
 /*   By: aumoreno < aumoreno@student.42madrid.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:23:06 by aumoreno          #+#    #+#             */
-/*   Updated: 2025/07/25 12:58:21 by aumoreno         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:27:46 by aumoreno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,25 @@
 
 /*ejemplo:
 timestamp_in_ms X has taken a fork
+if should print es 1 y sim should end tmb es que un philo ha muerto 
+y tenemos q pintar el mensaje de muerte
+si no pues todo normal 
 */
-void ft_print_msg(char *msg, int philo_id)
+void ft_print_msg(char *msg, t_philo *philo, int should_print)
 {
-    long ts; 
-    ts = ft_get_time_ms();
-    printf("%ld %d %s \n", ts, philo_id, msg);
+    long long ts; 
+    pthread_mutex_lock(&philo->args->sim_end_mtx);
+    if(philo->args->sim_should_end && !should_print)
+    {
+        pthread_mutex_unlock(&philo->args->sim_end_mtx);
+        return ; //review this
+    }
+    pthread_mutex_unlock(&philo->args->sim_end_mtx);
+    ts = ft_get_time_ms() - philo->args->sim_start_time;
+    pthread_mutex_lock(&philo->args->print_mtx);
+    if(!ft_check_simulation(philo->args) || should_print)
+        printf("%lld %d %s \n", ts, philo->philo_id, msg);
+    pthread_mutex_unlock(&philo->args->print_mtx);
 }
 
 size_t ft_strlen(char *str)
